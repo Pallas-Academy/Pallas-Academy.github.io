@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>分享你的思考 | Pallas Academy</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Georgia', serif;
+        }
+        
+        body {
+            background-color: #f5f0e8;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border-top: 5px solid #8B7355;
+        }
+        
+        .back-btn {
+            display: inline-block;
+            color: #8B7355;
+            text-decoration: none;
+            font-weight: bold;
+            margin-bottom: 20px;
+            padding: 8px 16px;
+            border: 1px solid #8B7355;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        .back-btn:hover {
+            background-color: #8B7355;
+            color: white;
+        }
+        
+        h1 {
+            color: #2C3E50;
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 2.2em;
+        }
+        
+        .intro-text {
+            text-align: center;
+            color: #7F8C8D;
+            margin-bottom: 30px;
+            font-size: 1.1em;
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #2C3E50;
+            font-weight: bold;
+        }
+        
+        input[type="text"], textarea, select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #EAEAEA;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+            background-color: #FAF8F5;
+        }
+        
+        input[type="text"]:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: #8B7355;
+            background-color: white;
+        }
+        
+        textarea {
+            height: 200px;
+            resize: vertical;
+        }
+        
+        .submit-btn {
+            background-color: #2C3E50;
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 8px;
+            font-size: 1.1em;
+            cursor: pointer;
+            display: block;
+            margin: 30px auto;
+            transition: all 0.3s ease;
+            width: 200px;
+        }
+        
+        .submit-btn:hover {
+            background-color: #34495E;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .submit-btn:disabled {
+            background-color: #95A5A6;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .guidelines {
+            background-color: #F9F5F0;
+            padding: 25px;
+            border-radius: 8px;
+            margin-top: 40px;
+            border-left: 4px solid #8B7355;
+        }
+        
+        .guidelines h3 {
+            color: #2C3E50;
+            margin-bottom: 15px;
+        }
+        
+        .guidelines ul {
+            padding-left: 20px;
+        }
+        
+        .guidelines li {
+            margin-bottom: 8px;
+            color: #555;
+        }
+        
+        /* 成功消息样式 */
+        .success-message {
+            background-color: #E8F5E8;
+            color: #2D5016;
+            padding: 40px;
+            border-radius: 10px;
+            text-align: center;
+            border: 2px solid #C8E6C9;
+            margin-top: 20px;
+            display: none;
+        }
+        
+        .success-message h3 {
+            color: #2D5016;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+        }
+        
+        .success-message p {
+            margin-bottom: 15px;
+            font-size: 1.1em;
+        }
+        
+        .countdown {
+            font-weight: bold;
+            color: #2C3E50;
+            font-size: 1.3em;
+        }
+        
+        .action-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .action-btn {
+            padding: 12px 25px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        
+        .primary-btn {
+            background-color: #2C3E50;
+            color: white;
+        }
+        
+        .secondary-btn {
+            background-color: #8B7355;
+            color: white;
+        }
+        
+        .action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #EAEAEA;
+            color: #7F8C8D;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 25px 20px;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .action-btn {
+                width: 100%;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="index.html" class="back-btn">← 返回首页</a>
+        
+        <h1>分享你的思考</h1>
+        <p class="intro-text">我们期待听到你的声音！请在此提交你的文章、诗歌、随笔或任何哲学思考。</p>
+        
+        <!-- 投稿表单 -->
+        <form class="upload-form" id="submissionForm">
+            <div class="form-group">
+                <label for="title">标题：</label>
+                <input type="text" id="title" name="title" required placeholder="为你的作品取一个吸引人的标题">
+            </div>
+            
+            <div class="form-group">
+                <label for="author">作者名：</label>
+                <input type="text" id="author" name="author" required placeholder="你的名字或笔名">
+            </div>
+            
+            <div class="form-group">
+                <label for="category">作品类型：</label>
+                <select id="category" name="category">
+                    <option value="随笔/散文">随笔/散文</option>
+                    <option value="哲学思考">哲学思考</option>
+                    <option value="诗歌">诗歌</option>
+                    <option value="短篇故事">短篇故事</option>
+                    <option value="其他">其他</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="content">内容：</label>
+                <textarea id="content" name="content" required placeholder="在此写下你的思考..."></textarea>
+            </div>
+            
+            <button type="submit" class="submit-btn" id="submitButton">提交作品</button>
+        </form>
+        
+        <!-- 成功消息 - 默认隐藏 -->
+        <div id="successMessage" class="success-message">
+            <h3>🎉 投稿成功！</h3>
+            <p>感谢您的投稿，<span id="authorName"></span>！</p>
+            <p>我们已收到您的作品《<span id="submissionTitle"></span>》。</p>
+            <p>我们的编辑团队将会认真审阅，并在3-5个工作日内与您联系。</p>
+            <p>页面将在 <span id="countdown" class="countdown">5</span> 秒后自动跳转...</p>
+            
+            <div class="action-buttons">
+                <a href="index.html" class="action-btn primary-btn">立即返回首页</a>
+                <a href="upload.html" class="action-btn secondary-btn">再投一篇</a>
+            </div>
+        </div>
+        
+        <div class="guidelines">
+            <h3>投稿指南：</h3>
+            <ul>
+                <li>作品需为原创内容，未在其他平台发表</li>
+                <li>我们鼓励深度思考和独特视角</li>
+                <li>优秀的作品将有机会在学院平台发布</li>
+                <li>请确保留下准确的联系方式</li>
+            </ul>
+        </div>
+        
+        <footer>
+            <p>Pallas Academy · 智慧与创意的交汇处</p>
+        </footer>
+    </div>
+
+    <script>
+        // 配置信息
+        const SUPABASE_URL = 'https://weixhdaqjfagzjoyabgn.supabase.co';
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndlaXhoZGFxamZhZ3pqb3lhYmduIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjIzMjA0MDYsImV4cCI6MjA3Nzg5NjQwNn0.lHJJN_o2agcb-R7tA1Qm8zOliMdNBQ-8ydb_YbVr670';
+        
+        // 表单提交处理
+        document.getElementById('submissionForm').addEventListener('submit', async function(event) {
+            event.preventDefault();
+            
+            // 获取表单数据
+            const title = document.getElementById('title').value;
+            const author = document.getElementById('author').value;
+            const category = document.getElementById('category').value;
+            const content = document.getElementById('content').value;
+            const submitButton = document.getElementById('submitButton');
+            
+            // 验证表单
+            if (!title || !author || !content) {
+                alert('请填写所有必填字段！');
+                return;
+            }
+            
+            // 显示加载状态
+            submitButton.textContent = '提交中...';
+            submitButton.disabled = true;
+            
+            try {
+                // 直接使用fetch API提交到Supabase
+                const response = await fetch(`${SUPABASE_URL}/rest/v1/submissions`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'apikey': SUPABASE_KEY,
+                        'Authorization': `Bearer ${SUPABASE_KEY}`,
+                        'Prefer': 'return=minimal'
+                    },
+                    body: JSON.stringify({
+                        title: title,
+                        author: author,
+                        category: category,
+                        content: content
+                    })
+                });
+                
+                if (response.ok) {
+                    // 提交成功
+                    console.log('投稿成功提交到Supabase');
+                    showSuccessMessage(author, title);
+                } else {
+                    throw new Error(`Supabase错误: ${response.status}`);
+                }
+                
+            } catch (error) {
+                console.error('提交失败:', error);
+                
+                // 降级到本地存储
+                const submission = {
+                    title: title,
+                    author: author,
+                    category: category,
+                    content: content,
+                    date: new Date().toLocaleString('zh-CN'),
+                    id: Date.now()
+                };
+                
+                let submissions = JSON.parse(localStorage.getItem('pallasSubmissions')) || [];
+                submissions.push(submission);
+                localStorage.setItem('pallasSubmissions', JSON.stringify(submissions));
+                
+                console.log('投稿已保存到本地存储');
+                showSuccessMessage(author, title);
+            }
+        });
+        
+        // 显示成功消息的函数
+        function showSuccessMessage(author, title) {
+            // 更新成功消息内容
+            document.getElementById('authorName').textContent = author;
+            document.getElementById('submissionTitle').textContent = title;
+            
+            // 隐藏表单，显示成功消息
+            document.getElementById('submissionForm').style.display = 'none';
+            document.getElementById('successMessage').style.display = 'block';
+            
+            // 设置倒计时
+            let seconds = 5;
+            const countdownElement = document.getElementById('countdown');
+            const countdownInterval = setInterval(function() {
+                seconds--;
+                countdownElement.textContent = seconds;
+                
+                if (seconds <= 0) {
+                    clearInterval(countdownInterval);
+                    window.location.href = 'index.html';
+                }
+            }, 1000);
+        }
+        
+        // 添加一些交互效果
+        document.querySelectorAll('input, textarea, select').forEach(element => {
+            element.addEventListener('focus', function() {
+                this.style.borderColor = '#8B7355';
+                this.style.boxShadow = '0 0 0 2px rgba(139, 115, 85, 0.2)';
+            });
+            
+            element.addEventListener('blur', function() {
+                this.style.borderColor = '#EAEAEA';
+                this.style.boxShadow = 'none';
+            });
+        });
+    </script>
+</body>
+</html>

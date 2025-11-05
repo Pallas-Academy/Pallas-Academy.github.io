@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pallas Academy | 作品集</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Georgia', serif;
+        }
+        
+        body {
+            background-color: #f5f0e8;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+            position: relative;
+        }
+        
+        .nav-toggle {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background-color: #2C3E50;
+            color: white;
+            border: none;
+            font-size: 24px;
+            width: 48px;
+            height: 48px;
+            border-radius: 5px;
+            cursor: pointer;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.3s ease;
+        }
+        
+        .nav-toggle:hover {
+            background-color: #34495E;
+        }
+        
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 240px;
+            height: 100vh;
+            background-color: white;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+            z-index: 900;
+            padding-top: 80px;
+        }
+        
+        .sidebar.active {
+            transform: translateX(0);
+        }
+        
+        .sidebar ul {
+            list-style: none;
+            padding: 0 20px;
+            margin: 0;
+        }
+        
+        .sidebar li {
+            margin: 20px 0;
+        }
+        
+        .sidebar a {
+            text-decoration: none;
+            color: #2C3E50;
+            font-size: 18px;
+            font-weight: bold;
+            display: block;
+            padding: 10px 15px;
+            border-radius: 5px;
+            transition: background-color 0.2s ease;
+        }
+        
+        .sidebar a:hover {
+            background-color: #f5f0e8;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border-top: 5px solid #8B7355;
+        }
+        
+        h1 {
+            color: #2C3E50;
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 2.2em;
+        }
+        
+        .logo {
+            display: block;
+            margin: 0 auto 25px;
+            max-width: 200px;
+            height: auto;
+        }
+        
+        .page-description {
+            text-align: center;
+            color: #7F8C8D;
+            margin-bottom: 40px;
+            font-size: 1.1em;
+        }
+        
+        .work-category {
+            margin: 40px 0;
+        }
+        
+        .work-category h2 {
+            color: #2C3E50;
+            border-left: 4px solid #8B7355;
+            padding-left: 15px;
+            margin-bottom: 25px;
+            font-size: 1.6em;
+        }
+        
+        .work-item {
+            background-color: #FAF8F5;
+            padding: 25px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            border-left: 4px solid #2C3E50;
+            transition: all 0.3s ease;
+        }
+        
+        .work-item:hover {
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transform: translateY(-2px);
+        }
+        
+        .work-item h3 {
+            color: #2C3E50;
+            margin-bottom: 10px;
+            font-size: 1.3em;
+        }
+        
+        .work-meta {
+            color: #7F8C8D;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #EAEAEA;
+        }
+        
+        .work-content {
+            white-space: pre-line;
+            line-height: 1.7;
+            font-size: 1.05em;
+        }
+        
+        .empty-tip {
+            text-align: center;
+            padding: 60px 20px;
+            color: #7F8C8D;
+        }
+        
+        .empty-tip h3 {
+            margin-bottom: 15px;
+            color: #2C3E50;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #7F8C8D;
+            font-size: 1.1em;
+        }
+        
+        .stats {
+            background-color: #F9F5F0;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            border-left: 4px solid #8B7355;
+            text-align: center;
+        }
+        
+        .refresh-btn {
+            background-color: #8B7355;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: all 0.3s ease;
+        }
+        
+        .refresh-btn:hover {
+            background-color: #6B5A45;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            padding-top: 20px;
+            border-top: 1px solid #EAEAEA;
+            color: #7F8C8D;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 25px 20px;
+            }
+            
+            .work-item {
+                padding: 20px;
+            }
+            
+            .nav-toggle {
+                width: 42px;
+                height: 42px;
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 汉堡导航按钮 -->
+    <button class="nav-toggle" id="navToggle">☰</button>
+    
+    <!-- 侧边导航栏 -->
+    <nav class="sidebar" id="sidebar">
+        <ul>
+            <li><a href="index.html">主页</a></li>
+            <li><a href="portfolio.html">作品集</a></li>
+            <li><a href="about.html">关于我们</a></li>
+            <li><a href="chat.html">交流</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <!-- Logo -->
+        <img src="Logo.jpeg" alt="Pallas Academy Logo" class="logo">
+        
+        <!-- 标题 -->
+        <h1>Pallas Academy 作品集</h1>
+        <p class="page-description">展示通过审核的优秀作品 - 文学 · 哲学 · 艺术 · 历史</p>
+        
+        <div class="stats">
+            <p>当前展示 <strong id="workCount">0</strong> 篇通过审核的优秀作品</p>
+            <button class="refresh-btn" onclick="loadPortfolio()">🔄 刷新作品集</button>
+        </div>
+        
+        <div id="loadingMessage" class="loading">正在加载优秀作品...</div>
+        
+        <div id="portfolioContent">
+            <!-- 作品内容将通过JavaScript动态生成 -->
+        </div>
+        
+        <footer>
+            <p>Pallas Academy · 智慧与创意的交汇处</p>
+            <p>所有作品均经过审核，确保内容质量</p>
+        </footer>
+    </div>
+
+    <script>
+        // 侧边栏控制
+        const navToggle = document.getElementById('navToggle');
+        const sidebar = document.getElementById('sidebar');
+        navToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('active');
+        });
+        
+        // 点击侧边栏链接后自动关闭侧边栏
+        const sidebarLinks = document.querySelectorAll('.sidebar a');
+        sidebarLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                sidebar.classList.remove('active');
+            });
+        });
+
+        // Supabase配置
+        const SUPABASE_URL = 'https://weixhdaqjfagzjoyabgn.supabase.co';
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndlaXhoZGFxamZhZ3pqb3lhYmduIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjIzMjA0MDYsImV4cCI6MjA3Nzg5NjQwNn0.lHJJN_o2agcb-R7tA1Qm8zOliMdNBQ-8ydb_YbVr670';
+        
+        // 加载作品到作品集
+        async function loadPortfolio() {
+            const portfolioContainer = document.getElementById('portfolioContent');
+            const loadingMessage = document.getElementById('loadingMessage');
+            const workCount = document.getElementById('workCount');
+            
+            // 显示加载状态
+            loadingMessage.style.display = 'block';
+            portfolioContainer.innerHTML = '';
+            
+            try {
+                console.log('正在从Supabase加载已审核作品...');
+                
+                // 从Supabase获取已审核的作品
+                const response = await fetch(`${SUPABASE_URL}/rest/v1/submissions?select=*&status=eq.approved&order=created_at.desc`, {
+                    method: 'GET',
+                    headers: {
+                        'apikey': SUPABASE_KEY,
+                        'Authorization': `Bearer ${SUPABASE_KEY}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`作品集加载失败: ${response.status}`);
+                }
+                
+                const submissions = await response.json();
+                console.log('成功获取已审核作品:', submissions);
+                
+                // 更新作品数量
+                workCount.textContent = submissions.length;
+                
+                // 隐藏加载消息
+                loadingMessage.style.display = 'none';
+                
+                if (submissions.length === 0) {
+                    portfolioContainer.innerHTML = `
+                        <div class="empty-tip">
+                            <h3>🎨 暂无已发布作品</h3>
+                            <p>目前还没有通过审核的作品展示</p>
+                            <p>优秀的投稿作品将在通过审核后显示在这里</p>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                // 按分类分组
+                const categories = {};
+                submissions.forEach(submission => {
+                    if (!categories[submission.category]) {
+                        categories[submission.category] = [];
+                    }
+                    categories[submission.category].push(submission);
+                });
+                
+                // 生成HTML
+                let html = '';
+                for (const [category, items] of Object.entries(categories)) {
+                    html += `
+                        <div class="work-category">
+                            <h2>${category} <span style="font-size: 0.8em; color: #7F8C8D;">(${items.length}篇)</span></h2>
+                    `;
+                    
+                    items.forEach(item => {
+                        const date = new Date(item.created_at).toLocaleDateString('zh-CN', {
+                            year: 'numeric',
+                            month: 'long',
+                            day: 'numeric'
+                        });
+                        
+                        html += `
+                            <div class="work-item">
+                                <h3>${item.title}</h3>
+                                <div class="work-meta">
+                                    <strong>作者:</strong> ${item.author} | 
+                                    <strong>发布日期:</strong> ${date} |
+                                    <strong>类型:</strong> ${item.category}
+                                </div>
+                                <div class="work-content">${item.content}</div>
+                            </div>
+                        `;
+                    });
+                    
+                    html += `</div>`;
+                }
+                
+                portfolioContainer.innerHTML = html;
+                
+            } catch (error) {
+                console.error('加载作品集失败:', error);
+                loadingMessage.style.display = 'none';
+                portfolioContainer.innerHTML = `
+                    <div class="empty-tip">
+                        <h3>❌ 加载失败</h3>
+                        <p>暂时无法加载作品集，请检查网络连接</p>
+                        <p>错误信息: ${error.message}</p>
+                        <button class="refresh-btn" onclick="loadPortfolio()" style="margin-top: 20px;">🔄 重新加载</button>
+                    </div>
+                `;
+            }
+        }
+        
+        // 页面加载时自动加载作品集
+        document.addEventListener('DOMContentLoaded', loadPortfolio);
+    </script>
+</body>
+</html>

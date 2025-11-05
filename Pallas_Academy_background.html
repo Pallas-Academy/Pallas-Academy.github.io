@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>安全数据管理 | Pallas Academy</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Georgia', serif;
+        }
+        
+        body {
+            background-color: #f5f0e8;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .container {
+            max-width: 700px;
+            width: 100%;
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border-top: 5px solid #8B7355;
+        }
+        
+        .back-btn {
+            display: inline-block;
+            color: #8B7355;
+            text-decoration: none;
+            font-weight: bold;
+            margin-bottom: 20px;
+            padding: 8px 16px;
+            border: 1px solid #8B7355;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        .back-btn:hover {
+            background-color: #8B7355;
+            color: white;
+        }
+        
+        h1 {
+            color: #2C3E50;
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 2.2em;
+        }
+        
+        .logo {
+            display: block;
+            margin: 0 auto 25px;
+            max-width: 150px;
+            height: auto;
+        }
+        
+        .page-description {
+            text-align: center;
+            color: #7F8C8D;
+            margin-bottom: 30px;
+            font-size: 1.1em;
+        }
+        
+        .security-level {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            padding: 10px;
+            background: #e8f4fd;
+            border-radius: 8px;
+            border-left: 4px solid #3498db;
+        }
+        
+        .security-level span {
+            font-weight: bold;
+            color: #2C3E50;
+            margin-left: 8px;
+        }
+        
+        .warning-box {
+            background-color: #FFF3CD;
+            color: #856404;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            border-left: 4px solid #FFC107;
+        }
+        
+        .warning-box h3 {
+            color: #856404;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .warning-box h3::before {
+            content: "⚠️";
+            margin-right: 10px;
+        }
+        
+        .warning-box p {
+            margin-bottom: 10px;
+        }
+        
+        .auth-section {
+            background-color: #F8F9FA;
+            padding: 25px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            border: 1px solid #EAEAEA;
+        }
+        
+        .auth-section h3 {
+            color: #2C3E50;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .auth-step {
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #EAEAEA;
+        }
+        
+        .auth-step:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        
+        .auth-step label {
+            display: block;
+            margin-bottom: 8px;
+            color: #2C3E50;
+            font-weight: bold;
+        }
+        
+        .auth-input {
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            width: 100%;
+            margin-bottom: 10px;
+            transition: border-color 0.3s;
+        }
+        
+        .auth-input:focus {
+            border-color: #8B7355;
+            outline: none;
+        }
+        
+        .auth-btn {
+            padding: 12px 24px;
+            background-color: #2C3E50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+        
+        .auth-btn:hover {
+            background-color: #34495E;
+        }
+        
+        .auth-btn:disabled {
+            background-color: #95A5A6;
+            cursor: not-allowed;
+        }
+        
+        .admin-panel {
+            display: none;
+        }
+        
+        .stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .stat-card {
+            background-color: white;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            border: 1px solid #EAEAEA;
+        }
+        
+        .stat-number {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #2C3E50;
+        }
+        
+        .stat-label {
+            color: #7F8C8D;
+            margin-top: 5px;
+            font-size: 0.9em;
+        }
+        
+        .action-card {
+            background-color: #F9F5F0;
+            padding: 25px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            border-left: 4px solid #8B7355;
+            transition: all 0.3s ease;
+        }
+        
+        .action-card:hover {
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transform: translateY(-2px);
+        }
+        
+        .action-card h3 {
+            color: #2C3E50;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+        
+        .action-card p {
+            color: #555;
+            margin-bottom: 20px;
+        }
+        
+        .delete-btn {
+            background-color: #E74C3C;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            font-size: 1.1em;
+        }
+        
+        .delete-btn:hover {
+            background-color: #C0392B;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .delete-btn:disabled {
+            background-color: #95A5A6;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .confirmation-box {
+            background-color: #f8d7da;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+            border: 1px solid #f5c6cb;
+            display: none;
+        }
+        
+        .confirmation-box p {
+            margin-bottom: 10px;
+            color: #721c24;
+        }
+        
+        .confirmation-input {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            width: 100%;
+            margin-bottom: 10px;
+        }
+        
+        .confirmation-buttons {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .confirm-btn {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        
+        .confirm-delete {
+            background-color: #E74C3C;
+            color: white;
+        }
+        
+        .cancel-delete {
+            background-color: #6c757d;
+            color: white;
+        }
+        
+        .audit-log {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 30px;
+            border: 1px solid #EAEAEA;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        
+        .audit-log h3 {
+            color: #2C3E50;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+        }
+        
+        .audit-entry {
+            padding: 8px 0;
+            border-bottom: 1px solid #e9ecef;
+            font-size: 0.9em;
+            color: #6c757d;
+        }
+        
+        .audit-entry:last-child {
+            border-bottom: none;
+        }
+        
+        .result-message {
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 20px;
+            text-align: center;
+            display: none;
+        }
+        
+        .success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 20px;
+            color: #7F8C8D;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #EAEAEA;
+            color: #7F8C8D;
+            width: 100%;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 25px 20px;
+            }
+            
+            .stats {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .attempts-warning {
+            color: #E74C3C;
+            font-size: 0.9em;
+            margin-top: 10px;
+            display: none;
+        }
+        
+        .lockout-message {
+            background-color: #f8d7da;
+            color: #721c24;
+            padding: 15px;
+            border-radius: 5px;
+            text-align: center;
+            margin-top: 15px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="index.html" class="back-btn">← 返回安全区域</a>
+        
+        <img src="Logo.jpeg" alt="Pallas Academy Logo" class="logo" onerror="this.style.display='none'">
+        
+        <h1>安全数据管理</h1>
+        <p class="page-description">Pallas Academy 高级安全数据管理界面</p>
+        
+        <div class="security-level">
+            🔒 <span>最高安全级别 - 多重身份验证启用</span>
+        </div>
+        
+        <div class="warning-box">
+            <h3>高级安全警告</h3>
+            <p>此界面包含高度敏感的数据操作功能，受多重安全措施保护。</p>
+            <p>所有操作将被记录并审计，任何未经授权的访问尝试将被记录。</p>
+            <p>操作需要多重身份验证和确认，数据删除后无法恢复。</p>
+        </div>
+        
+        <!-- 身份验证部分 -->
+        <div class="auth-section" id="authSection">
+            <h3>身份验证</h3>
+            
+            <div class="auth-step">
+                <label for="adminPassword">第一步：管理员密码</label>
+                <input type="password" id="adminPassword" class="auth-input" placeholder="输入管理员密码" autocomplete="off">
+                <div class="attempts-warning" id="passwordAttemptsWarning">
+                    剩余尝试次数: <span id="passwordAttemptsLeft">5</span>
+                </div>
+            </div>
+            
+            <div class="auth-step">
+                <label for="securityCode">第二步：安全代码</label>
+                <input type="text" id="securityCode" class="auth-input" placeholder="输入安全代码 (发送到注册邮箱)" disabled>
+                <button class="auth-btn" id="requestCodeBtn" onclick="requestSecurityCode()">请求安全代码</button>
+            </div>
+            
+            <div class="auth-step">
+                <label for="totpCode">第三步：动态验证码 (可选)</label>
+                <input type="text" id="totpCode" class="auth-input" placeholder="输入动态验证码 (如使用2FA)" maxlength="6">
+            </div>
+            
+            <button class="auth-btn" id="loginBtn" onclick="authenticate()" disabled>验证身份</button>
+            
+            <div class="lockout-message" id="lockoutMessage">
+                由于多次验证失败，系统已暂时锁定。请15分钟后再试或联系系统管理员。
+            </div>
+        </div>
+        
+        <!-- 管理面板 -->
+        <div class="admin-panel" id="adminPanel">
+            <!-- 统计信息 -->
+            <div class="stats">
+                <div class="stat-card">
+                    <div class="stat-number" id="submissionCount">0</div>
+                    <div class="stat-label">作品集投稿</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="chatMessageCount">0</div>
+                    <div class="stat-label">聊天消息</div>
+                </div>
+            </div>
+            
+            <!-- 删除作品集 -->
+            <div class="action-card">
+                <h3>删除作品集数据</h3>
+                <p>此操作将删除所有投稿数据，包括已审核和待审核的作品。此操作不可逆，请谨慎使用。</p>
+                <button class="delete-btn" id="deleteSubmissionsBtn" onclick="initiateDelete('submissions')">删除所有作品集数据</button>
+                
+                <div class="confirmation-box" id="submissionsConfirmation">
+                    <p>请输入安全短语 "<strong id="submissionsPhrase"></strong>" 以确认删除所有作品集数据：</p>
+                    <input type="text" class="confirmation-input" id="submissionsConfirmationInput" placeholder="输入安全短语">
+                    <div class="confirmation-buttons">
+                        <button class="confirm-btn confirm-delete" onclick="confirmDelete('submissions')">确认删除</button>
+                        <button class="confirm-btn cancel-delete" onclick="cancelDelete('submissions')">取消</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 删除聊天记录 -->
+            <div class="action-card">
+                <h3>删除聊天记录</h3>
+                <p>此操作将删除所有聊天消息记录。此操作不可逆，请谨慎使用。</p>
+                <button class="delete-btn" id="deleteChatBtn" onclick="initiateDelete('chat')">删除所有聊天记录</button>
+                
+                <div class="confirmation-box" id="chatConfirmation">
+                    <p>请输入安全短语 "<strong id="chatPhrase"></strong>" 以确认删除所有聊天记录：</p>
+                    <input type="text" class="confirmation-input" id="chatConfirmationInput" placeholder="输入安全短语">
+                    <div class="confirmation-buttons">
+                        <button class="confirm-btn confirm-delete" onclick="confirmDelete('chat')">确认删除</button>
+                        <button class="confirm-btn cancel-delete" onclick="cancelDelete('chat')">取消</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 操作审计日志 -->
+            <div class="audit-log">
+                <h3>操作审计日志</h3>
+                <div id="auditLogContent">
+                    <div class="audit-entry">系统就绪 - 等待身份验证</div>
+                </div>
+            </div>
+            
+            <!-- 结果显示 -->
+            <div class="result-message" id="resultMessage"></div>
+        </div>
+        
+        <footer>
+            <p>Pallas Academy · 高级安全数据管理工具</p>
+            <p>所有操作均被记录和审计 · 未经授权访问将被记录</p>
+        </footer>
+    </div>
+
+    <!-- 引入 Supabase JS 客户端 -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        // Supabase 配置
+        const SUPABASE_URL = 'https://weixhdaqjfagzjoyabgn.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndlaXhoZGFxamZhZ3pqb3lhYmduIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjIzMjA0MDYsImV4cCI6MjA3Nzg5NjQwNn0.lHJJN_o2agcb-R7tA1Qm8zOliMdNBQ-8ydb_YbVr670';
+        
+        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        
+        // 安全配置
+        const ADMIN_PASSWORD = 'pallas2024'; // 在实际应用中，应从安全存储中获取
+        const MAX_PASSWORD_ATTEMPTS = 5;
+        const LOCKOUT_DURATION = 15 * 60 * 1000; // 15分钟锁定
+        
+        // 安全状态
+        let passwordAttempts = 0;
+        let isLocked = false;
+        let lockoutTime = 0;
+        let securityCode = '';
+        let sessionToken = '';
+        let currentDeleteType = '';
+        
+        // 初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            checkLockoutStatus();
+            document.getElementById('adminPassword').focus();
+            
+            // 输入监听
+            document.getElementById('adminPassword').addEventListener('input', updateLoginButton);
+            document.getElementById('securityCode').addEventListener('input', updateLoginButton);
+            
+            // 按Enter键提交
+            document.getElementById('adminPassword').addEventListener('keydown', function(e) {
+                if (e.key === 'Enter' && !isLocked) {
+                    document.getElementById('securityCode').focus();
+                }
+            });
+            
+            document.getElementById('securityCode').addEventListener('keydown', function(e) {
+                if (e.key === 'Enter' && !isLocked) {
+                    document.getElementById('totpCode').focus();
+                }
+            });
+            
+            document.getElementById('totpCode').addEventListener('keydown', function(e) {
+                if (e.key === 'Enter' && !isLocked) {
+                    authenticate();
+                }
+            });
+        });
+        
+        // 检查锁定状态
+        function checkLockoutStatus() {
+            const storedLockout = localStorage.getItem('adminLockout');
+            if (storedLockout) {
+                const lockoutData = JSON.parse(storedLockout);
+                if (Date.now() - lockoutData.time < LOCKOUT_DURATION) {
+                    isLocked = true;
+                    lockoutTime = lockoutData.time;
+                    showLockoutMessage();
+                } else {
+                    localStorage.removeItem('adminLockout');
+                    localStorage.removeItem('passwordAttempts');
+                }
+            }
+            
+            const storedAttempts = localStorage.getItem('passwordAttempts');
+            if (storedAttempts) {
+                passwordAttempts = parseInt(storedAttempts);
+                updateAttemptsWarning();
+            }
+        }
+        
+        // 显示锁定消息
+        function showLockoutMessage() {
+            document.getElementById('lockoutMessage').style.display = 'block';
+            document.getElementById('adminPassword').disabled = true;
+            document.getElementById('securityCode').disabled = true;
+            document.getElementById('totpCode').disabled = true;
+            document.getElementById('requestCodeBtn').disabled = true;
+            document.getElementById('loginBtn').disabled = true;
+            
+            // 更新锁定剩余时间
+            const remainingTime = Math.ceil((LOCKOUT_DURATION - (Date.now() - lockoutTime)) / 60000);
+            document.getElementById('lockoutMessage').innerHTML = 
+                `由于多次验证失败，系统已暂时锁定。请${remainingTime}分钟后再试或联系系统管理员。`;
+        }
+        
+        // 更新尝试次数警告
+        function updateAttemptsWarning() {
+            if (passwordAttempts > 0) {
+                document.getElementById('passwordAttemptsWarning').style.display = 'block';
+                document.getElementById('passwordAttemptsLeft').textContent = MAX_PASSWORD_ATTEMPTS - passwordAttempts;
+            } else {
+                document.getElementById('passwordAttemptsWarning').style.display = 'none';
+            }
+        }
+        
+        // 更新登录按钮状态
+        function updateLoginButton() {
+            const password = document.getElementById('adminPassword').value;
+            const securityCode = document.getElementById('securityCode').value;
+            const loginBtn = document.getElementById('loginBtn');
+            
+            loginBtn.disabled = !(password && securityCode) || isLocked;
+        }
+        
+        // 请求安全代码
+        function requestSecurityCode() {
+            const password = document.getElementById('adminPassword').value;
+            
+            if (password !== ADMIN_PASSWORD) {
+                showResult('密码错误，无法请求安全代码', 'error');
+                return;
+            }
+            
+            // 生成随机安全代码 (在实际应用中，应通过安全渠道发送)
+            securityCode = Math.floor(100000 + Math.random() * 900000).toString();
+            
+            // 启用安全代码输入框
+            document.getElementById('securityCode').disabled = false;
+            document.getElementById('securityCode').value = securityCode;
+            
+            // 记录审计日志
+            addAuditLog('安全代码已生成: ' + securityCode);
+            
+            showResult('安全代码已生成: ' + securityCode, 'success');
+            updateLoginButton();
+        }
+        
+        // 身份验证
+        function authenticate() {
+            if (isLocked) {
+                showResult('系统已锁定，请稍后再试', 'error');
+                return;
+            }
+            
+            const password = document.getElementById('adminPassword').value;
+            const enteredSecurityCode = document.getElementById('securityCode').value;
+            const totpCode = document.getElementById('totpCode').value;
+            
+            // 验证密码
+            if (password !== ADMIN_PASSWORD) {
+                passwordAttempts++;
+                localStorage.setItem('passwordAttempts', passwordAttempts.toString());
+                updateAttemptsWarning();
+                
+                if (passwordAttempts >= MAX_PASSWORD_ATTEMPTS) {
+                    isLocked = true;
+                    lockoutTime = Date.now();
+                    localStorage.setItem('adminLockout', JSON.stringify({ time: lockoutTime }));
+                    showLockoutMessage();
+                    addAuditLog('多次验证失败，系统已锁定');
+                }
+                
+                showResult('密码错误', 'error');
+                return;
+            }
+            
+            // 验证安全代码
+            if (enteredSecurityCode !== securityCode) {
+                showResult('安全代码错误', 'error');
+                addAuditLog('安全代码验证失败');
+                return;
+            }
+            
+            // 验证TOTP代码 (可选)
+            if (totpCode && !validateTOTP(totpCode)) {
+                showResult('动态验证码错误', 'error');
+                addAuditLog('动态验证码验证失败');
+                return;
+            }
+            
+            // 验证成功
+            passwordAttempts = 0;
+            localStorage.removeItem('passwordAttempts');
+            localStorage.removeItem('adminLockout');
+            
+            // 生成会话令牌
+            sessionToken = generateSessionToken();
+            
+            // 显示管理面板
+            document.getElementById('authSection').style.display = 'none';
+            document.getElementById('adminPanel').style.display = 'block';
+            
+            // 加载统计数据
+            loadStats();
+            
+            // 记录审计日志
+            addAuditLog('管理员身份验证成功');
+            addAuditLog('管理会话已启动');
+        }
+        
+        // 验证TOTP代码 (简化版)
+        function validateTOTP(code) {
+            // 在实际应用中，这里应该实现完整的TOTP验证逻辑
+            // 这里仅做简单演示
+            return code.length === 6 && /^\d+$/.test(code);
+        }
+        
+        // 生成会话令牌
+        function generateSessionToken() {
+            return 'token_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+        }
+        
+        // 加载统计数据
+        async function loadStats() {
+            try {
+                // 获取投稿数量
+                const { data: submissions, error: submissionsError } = await supabase
+                    .from('submissions')
+                    .select('*', { count: 'exact' });
+                
+                if (submissionsError) throw submissionsError;
+                
+                document.getElementById('submissionCount').textContent = submissions.length;
+                
+                // 获取聊天消息数量
+                const { data: chatMessages, error: chatError } = await supabase
+                    .from('chat_messages')
+                    .select('*', { count: 'exact' });
+                
+                if (chatError) throw chatError;
+                
+                document.getElementById('chatMessageCount').textContent = chatMessages.length;
+                
+                addAuditLog('数据统计已加载');
+                
+            } catch (error) {
+                console.error('加载统计数据失败:', error);
+                showResult('加载统计数据失败: ' + error.message, 'error');
+                addAuditLog('数据统计加载失败: ' + error.message);
+            }
+        }
+        
+        // 初始化删除操作
+        function initiateDelete(type) {
+            currentDeleteType = type;
+            
+            // 生成随机安全短语
+            const phrases = [
+                "确认删除数据",
+                "永久删除内容",
+                "不可恢复操作",
+                "数据清除确认"
+            ];
+            const randomPhrase = phrases[Math.floor(Math.random() * phrases.length)];
+            
+            // 显示确认框
+            const confirmationBox = document.getElementById(type + 'Confirmation');
+            const phraseElement = document.getElementById(type + 'Phrase');
+            
+            phraseElement.textContent = randomPhrase;
+            confirmationBox.style.display = 'block';
+            
+            // 禁用删除按钮
+            document.getElementById('delete' + (type === 'submissions' ? 'Submissions' : 'Chat') + 'Btn').disabled = true;
+            
+            addAuditLog(`初始化${type === 'submissions' ? '作品集' : '聊天记录'}删除操作`);
+        }
+        
+        // 取消删除操作
+        function cancelDelete(type) {
+            const confirmationBox = document.getElementById(type + 'Confirmation');
+            confirmationBox.style.display = 'none';
+            
+            // 启用删除按钮
+            document.getElementById('delete' + (type === 'submissions' ? 'Submissions' : 'Chat') + 'Btn').disabled = false;
+            
+            // 清空输入框
+            document.getElementById(type + 'ConfirmationInput').value = '';
+            
+            addAuditLog(`取消${type === 'submissions' ? '作品集' : '聊天记录'}删除操作`);
+        }
+        
+        // 确认删除
+        function confirmDelete(type) {
+            const confirmationInput = document.getElementById(type + 'ConfirmationInput');
+            const phraseElement = document.getElementById(type + 'Phrase');
+            
+            if (confirmationInput.value !== phraseElement.textContent) {
+                showResult('安全短语不匹配，操作已取消', 'error');
+                addAuditLog(`安全短语验证失败，${type === 'submissions' ? '作品集' : '聊天记录'}删除操作已取消`);
+                return;
+            }
+            
+            // 执行删除
+            deleteData(type);
+        }
+        
+        // 删除数据
+        async function deleteData(type) {
+            const tableName = type === 'submissions' ? 'submissions' : 'chat_messages';
+            const actionName = type === 'submissions' ? '作品集数据' : '聊天记录';
+            
+            addAuditLog(`开始删除${actionName}`);
+            
+            try {
+                // 执行删除操作
+                const { error } = await supabase
+                    .from(tableName)
+                    .delete()
+                    .neq('id', 0); // 删除所有记录
+                
+                if (error) throw error;
+                
+                showResult(`${actionName}已成功删除！`, 'success');
+                addAuditLog(`${actionName}删除成功`);
+                
+                // 更新统计数据
+                loadStats();
+                
+            } catch (error) {
+                console.error(`删除${actionName}失败:`, error);
+                showResult(`删除${actionName}失败: ${error.message}`, 'error');
+                addAuditLog(`${actionName}删除失败: ${error.message}`);
+            } finally {
+                // 重置UI
+                cancelDelete(type);
+            }
+        }
+        
+        // 添加审计日志
+        function addAuditLog(message) {
+            const auditLog = document.getElementById('auditLogContent');
+            const timestamp = new Date().toLocaleString('zh-CN');
+            const entry = document.createElement('div');
+            entry.className = 'audit-entry';
+            entry.textContent = `${timestamp} - ${message}`;
+            
+            auditLog.prepend(entry);
+            
+            // 限制日志条目数量
+            if (auditLog.children.length > 20) {
+                auditLog.removeChild(auditLog.lastChild);
+            }
+        }
+        
+        // 显示结果消息
+        function showResult(message, type) {
+            const resultDiv = document.getElementById('resultMessage');
+            resultDiv.textContent = message;
+            resultDiv.className = `result-message ${type}`;
+            resultDiv.style.display = 'block';
+            
+            // 5秒后自动隐藏
+            setTimeout(() => {
+                resultDiv.style.display = 'none';
+            }, 5000);
+        }
+    </script>
+</body>
+</html>

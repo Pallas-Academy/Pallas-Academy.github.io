@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>关于我们 | Pallas Academy</title>
+    <style>
+        /* 基础样式（与所有页面统一） */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Georgia', serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5eedd; /* 统一浅米色背景 */
+            color: #333;
+            line-height: 1.8;
+            position: relative;
+        }
+        /* 汉堡导航按钮 */
+        .nav-toggle {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background-color: #2c3e50;
+            color: white;
+            border: none;
+            font-size: 24px;
+            width: 48px;
+            height: 48px;
+            border-radius: 5px;
+            cursor: pointer;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.3s ease;
+        }
+        .nav-toggle:hover {
+            background-color: #34495e;
+        }
+        /* 侧边导航栏 */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 240px;
+            height: 100vh;
+            background-color: white;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+            z-index: 900;
+            padding-top: 80px;
+        }
+        .sidebar.active {
+            transform: translateX(0);
+        }
+        .sidebar ul {
+            list-style: none;
+            padding: 0 20px;
+            margin: 0;
+        }
+        .sidebar li {
+            margin: 20px 0;
+        }
+        .sidebar a {
+            text-decoration: none;
+            color: #2c3e50;
+            font-size: 18px;
+            font-weight: bold;
+            display: block;
+            padding: 10px 15px;
+            border-radius: 5px;
+            transition: background-color 0.2s ease;
+        }
+        .sidebar a:hover {
+            background-color: #f5eedd;
+        }
+        /* 主体容器 */
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.08);
+            padding-top: 20px;
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 15px;
+            margin-top: 10px;
+            margin-bottom: 20px;
+        }
+        .logo {
+            display: block;
+            margin: 0 auto 25px;
+            max-width: 200px;
+            height: auto;
+        }
+        /* 关于我们页面特有样式 */
+        .section {
+            margin: 40px 0;
+        }
+        .section h2 {
+            color: #2c3e50;
+            border-left: 4px solid #8b7355; /* 棕色强调线 */
+            padding-left: 12px;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+        }
+        .section p {
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+        .highlight-box {
+            background-color: #f9f5eb;
+            padding: 22px;
+            border-radius: 5px;
+            margin: 25px 0;
+            border-left: 4px solid #8b7355;
+        }
+        .highlight-box p {
+            margin: 0;
+            font-size: 1.05em;
+        }
+        .highlight-box strong {
+            color: #2c3e50;
+        }
+        /* 时间线样式 */
+        .timeline {
+            position: relative;
+            margin: 30px 0 40px;
+            padding-left: 30px;
+        }
+        .timeline:before {
+            content: '';
+            position: absolute;
+            left: 7px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: #8b7355;
+        }
+        .timeline-item {
+            position: relative;
+            margin-bottom: 35px;
+        }
+        .timeline-item:before {
+            content: '';
+            position: absolute;
+            left: -33px;
+            top: 5px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #8b7355;
+            border: 2px solid white;
+            box-shadow: 0 0 0 2px rgba(139, 115, 85, 0.3);
+        }
+        .timeline-date {
+            font-weight: bold;
+            color: #8b7355;
+            margin-bottom: 8px;
+            font-size: 1.1em;
+        }
+        .timeline-item h3 {
+            color: #2c3e50;
+            margin-bottom: 8px;
+            font-size: 1.2em;
+        }
+        /* 核心价值观网格 */
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 18px;
+            margin-top: 25px;
+        }
+        .value-card {
+            background-color: #f9f5eb;
+            padding: 20px;
+            border-radius: 5px;
+            text-align: center;
+            transition: transform 0.2s ease;
+        }
+        .value-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+        }
+        .value-card h3 {
+            margin: 0 0 12px 0;
+            color: #2c3e50;
+            font-size: 1.1em;
+        }
+        .value-card p {
+            margin: 0;
+            font-size: 0.95em;
+            color: #555;
+            line-height: 1.6;
+        }
+        /* 响应式适配 */
+        @media (max-width: 768px) {
+            .container {
+                padding: 30px 20px;
+            }
+            .values-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            .section {
+                margin: 30px 0;
+            }
+        }
+        @media (max-width: 480px) {
+            .values-grid {
+                grid-template-columns: 1fr;
+            }
+            .timeline {
+                padding-left: 25px;
+            }
+            .nav-toggle {
+                width: 42px;
+                height: 42px;
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 汉堡导航按钮 -->
+    <button class="nav-toggle" id="navToggle">☰</button>
+    
+    <!-- 侧边导航栏 -->
+    <nav class="sidebar" id="sidebar">
+        <ul>
+            <li><a href="index.html">主页</a></li>
+            <li><a href="portfolio.html">作品集</a></li>
+            <li><a href="about.html">关于我们</a></li>
+            <li><a href="chat.html">交流</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <!-- Logo -->
+        <img src="Logo.jpeg" alt="Pallas Academy Logo" class="logo">
+        
+        <!-- 标题 -->
+        <h1>关于 Pallas Academy</h1>
+        <p style="text-align: center; color: #7f8c8d; margin-bottom: 30px;">一个始于个人困境，致力于探寻人性本质的思想者联盟</p>
+
+        <!-- 缘起部分 -->
+        <div class="section">
+            <h2>缘起：始于一次坦诚的自我面对</h2>
+            <p>Pallas Academy 诞生于一个看似颓废的午后。创始人的手边堆满了未读的书籍，心中充满了想要努力的冲动，身体却陷入了停滞。这种"想努力但无法行动"的割裂感，带来了强烈的不安与反思。</p>
+            
+            <div class="highlight-box">
+                <p><strong>正是在这种不适中，一个想法破土而出：如果个人的意志力时有懈怠，那么一群人相互唤醒、彼此照亮的集体智慧，是否能够成为对抗思想惰性的灯塔？</strong></p>
+            </div>
+            
+            <p>这不是一个由完人创建的完美组织，而是一个始于坦诚面对自身局限的思想者联盟。我们相信，真正的智慧探索，始于承认我们都有陷入困顿的时刻，而联结与对话，则是走出困顿最有力的方式。</p>
+        </div>
+
+        <!-- 使命部分 -->
+        <div class="section">
+            <h2>使命：探寻人类感性的本质</h2>
+            <p>我们致力于探索文学、哲学、艺术（美术与音乐）、历史——这些由人类感性、人性与主观所创造的事物——其背后的<strong>本质与意义</strong>。</p>
+            
+            <p>在快餐文化和碎片化信息充斥的时代，我们坚信深度思考与真诚对话的力量。我们不是要提供标准答案，而是要培养<strong>提出更好问题</strong>的能力。</p>
+        </div>
+
+        <!-- 发展路径部分 -->
+        <div class="section">
+            <h2>发展路径：一个14岁创始人的务实愿景</h2>
+            <p>我们的创始人在14岁时便意识到，伟大的思想事业并非一蹴而就。因此，Pallas Academy选择了一条<strong>由内而外、由小到大</strong>的成长路径：</p>
+            
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-date">现在</div>
+                    <h3>从个人到社群</h3>
+                    <p>创始人将首先以"主编-编辑-作者"三位一体的身份，独立运营《光谱》线上刊物，淬炼内容与思想。</p>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">近期</div>
+                    <h3>从线上到线下</h3>
+                    <p>通过高质量的原创内容，自然吸引第一批真正的同道者，建立初步的会员社群。</p>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">未来</div>
+                    <h3>从理想到制度</h3>
+                    <p>当志同道合的伙伴因内容而汇聚，那个构想中通过"笔试与面试"选拔会员的精英思想社群，便将自然地、水到渠成地建立。</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 核心价值观部分 -->
+        <div class="section">
+            <h2>核心价值观</h2>
+            <p>我们的所有活动都建立在以下核心价值观之上：</p>
+            
+            <div class="values-grid">
+                <div class="value-card">
+                    <h3>包容性</h3>
+                    <p>欢迎各种背景、观点和表达方式</p>
+                </div>
+                <div class="value-card">
+                    <h3>批判性思维</h3>
+                    <p>不盲从权威，鼓励质疑与深度思考</p>
+                </div>
+                <div class="value-card">
+                    <h3>真诚对话</h3>
+                    <p>重视交流过程而非辩论输赢</p>
+                </div>
+                <div class="value-card">
+                    <h3>思想自由</h3>
+                    <p>保护成员表达非主流观点的权利</p>
+                </div>
+                <div class="value-card">
+                    <h3>互助成长</h3>
+                    <p>成员间相互支持、共同进步</p>
+                </div>
+                <div class="value-card">
+                    <h3>传承与创新</h3>
+                    <p>尊重传统智慧同时勇于突破</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 承诺部分 -->
+        <div class="section">
+            <h2>我们的承诺</h2>
+            <p>这是一个由年轻人为自己和所有年龄段思想者打造的实验室。我们或许始于一个微小的火花，但我们坚信，<strong>专注、真诚与持续的行动，能将思想的星火燃成照亮一方的光芒。</strong></p>
+            
+            <div class="highlight-box">
+                <p>我们承诺保持思想的深度与真诚，不因追求规模而稀释品质。每一位成员的声音都值得被认真倾听，每一个独特的视角都能丰富我们的集体智慧。</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- 侧边栏控制脚本 -->
+    <script>
+        const navToggle = document.getElementById('navToggle');
+        const sidebar = document.getElementById('sidebar');
+        
+        // 点击汉堡按钮切换侧边栏显示/隐藏
+        navToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('active');
+        });
+        
+        // 点击侧边栏链接后自动关闭侧边栏（提升移动端体验）
+        const sidebarLinks = document.querySelectorAll('.sidebar a');
+        sidebarLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                sidebar.classList.remove('active');
+            });
+        });
+    </script>
+</body>
+</html>
