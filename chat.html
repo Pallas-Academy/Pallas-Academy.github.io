@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>交流 | Pallas Academy</title>
+    <style>
+        /* 基础样式（与所有页面统一） */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Georgia', serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5eedd;
+            color: #333;
+            line-height: 1.6;
+            position: relative;
+        }
+        /* 汉堡导航按钮 */
+        .nav-toggle {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background-color: #2c3e50;
+            color: white;
+            border: none;
+            font-size: 24px;
+            width: 48px;
+            height: 48px;
+            border-radius: 5px;
+            cursor: pointer;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.3s ease;
+        }
+        .nav-toggle:hover {
+            background-color: #34495e;
+        }
+        /* 侧边导航栏 */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 240px;
+            height: 100vh;
+            background-color: white;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+            z-index: 900;
+            padding-top: 80px;
+        }
+        .sidebar.active {
+            transform: translateX(0);
+        }
+        .sidebar ul {
+            list-style: none;
+            padding: 0 20px;
+            margin: 0;
+        }
+        .sidebar li {
+            margin: 20px 0;
+        }
+        .sidebar a {
+            text-decoration: none;
+            color: #2c3e50;
+            font-size: 18px;
+            font-weight: bold;
+            display: block;
+            padding: 10px 15px;
+            border-radius: 5px;
+            transition: background-color 0.2s ease;
+        }
+        .sidebar a:hover {
+            background-color: #f5eedd;
+        }
+        /* 主体容器 */
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.08);
+            padding-top: 20px;
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 15px;
+            margin-top: 10px;
+            margin-bottom: 20px;
+        }
+        .logo {
+            display: block;
+            margin: 0 auto 25px;
+            max-width: 200px;
+            height: auto;
+        }
+        /* 交流页面特有样式 */
+        .chat-section {
+            margin: 30px 0;
+        }
+        .chat-rules {
+            background-color: #f9f5eb;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            border-left: 4px solid #8b7355;
+        }
+        .chat-rules h3 {
+            color: #2c3e50;
+            margin-bottom: 8px;
+            font-size: 1.1em;
+        }
+        .chat-rules ul {
+            padding-left: 20px;
+            margin: 0;
+            color: #555;
+            font-size: 0.95em;
+        }
+        /* 聊天内容区域 */
+        .chat-container {
+            width: 100%;
+            height: 400px;
+            border: 1px solid #eee;
+            border-radius: 5px;
+            padding: 15px;
+            overflow-y: auto;
+            background-color: #faf8f3;
+            margin-bottom: 15px;
+        }
+        .chat-message {
+            margin-bottom: 12px;
+            padding: 10px;
+            border-radius: 5px;
+            max-width: 80%;
+            word-wrap: break-word;
+        }
+        .user-message {
+            background-color: #e3f2fd;
+            margin-left: auto;
+        }
+        .other-message {
+            background-color: #f9f5eb;
+            margin-right: auto;
+        }
+        .message-info {
+            font-size: 0.8em;
+            color: #7f8c8d;
+            margin-bottom: 3px;
+        }
+        /* 输入区域 */
+        .input-container {
+            display: flex;
+            gap: 10px;
+        }
+        #message-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-family: 'Georgia', serif;
+            font-size: 1em;
+            resize: none;
+            height: 80px;
+        }
+        #send-btn {
+            padding: 12px 24px;
+            background-color: #2c3e50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            white-space: nowrap;
+        }
+        #send-btn:hover {
+            background-color: #34495e;
+        }
+        /* 提示信息 */
+        .tip {
+            text-align: center;
+            color: #7f8c8d;
+            font-size: 0.9em;
+            margin-top: 10px;
+        }
+        .error-tip {
+            color: #e74c3c;
+            text-align: center;
+            margin-top: 8px;
+            font-size: 0.9em;
+            display: none;
+        }
+        /* 响应式适配 */
+        @media (max-width: 768px) {
+            .container {
+                padding: 30px 20px;
+            }
+            .chat-container {
+                height: 300px;
+            }
+            .input-container {
+                flex-direction: column;
+            }
+            #send-btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 汉堡导航按钮 -->
+    <button class="nav-toggle" id="navToggle">☰</button>
+    
+    <!-- 侧边导航栏（新增“交流”链接，保持所有页面统一） -->
+    <nav class="sidebar" id="sidebar">
+        <ul>
+            <li><a href="index.html">主页</a></li>
+            <li><a href="portfolio.html">作品集</a></li>
+            <li><a href="about.html">关于我们</a></li>
+            <li><a href="chat.html">交流</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <!-- Logo -->
+        <img src="Logo.jpeg" alt="Pallas Academy Logo" class="logo">
+        
+        <!-- 标题 -->
+        <h1>Pallas Academy 交流区</h1>
+        <p style="text-align: center; color: #7f8c8d; margin-bottom: 30px;">思想碰撞，真诚对话</p>
+
+        <!-- 聊天规则 -->
+        <div class="chat-rules">
+            <h3>交流规则</h3>
+            <ul>
+                <li>尊重他人，理性交流，禁止人身攻击</li>
+                <li>禁止发布低俗、脏话、色情、暴力等违规内容</li>
+                <li>聚焦文学、哲学、艺术、历史等主题，拒绝无关广告</li>
+                <li>鼓励不同观点碰撞，但需保持礼貌与包容</li>
+            </ul>
+        </div>
+
+        <!-- 聊天内容区域 -->
+        <div class="chat-container" id="chatContainer">
+            <!-- 聊天消息会通过JS动态添加 -->
+            <div class="chat-message other-message">
+                <div class="message-info">系统 · 刚刚</div>
+                <div>欢迎来到Pallas交流区！请遵守规则，享受思想碰撞的乐趣～</div>
+            </div>
+        </div>
+
+        <!-- 输入区域 -->
+        <div class="input-container">
+            <textarea id="message-input" placeholder="输入你的观点或疑问（禁止低俗脏话）..."></textarea>
+            <button id="send-btn">发送消息</button>
+        </div>
+
+        <div class="error-tip" id="errorTip">消息包含违规内容，请修改后重新发送～</div>
+        <div class="tip">提示：消息仅在本地保存，刷新页面后会清空（如需永久保存需搭配后端开发）</div>
+    </div>
+
+    <script>
+        // 侧边栏控制
+        const navToggle = document.getElementById('navToggle');
+        const sidebar = document.getElementById('sidebar');
+        navToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('active');
+        });
+        // 点击侧边栏链接关闭侧边栏
+        const sidebarLinks = document.querySelectorAll('.sidebar a');
+        sidebarLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                sidebar.classList.remove('active');
+            });
+        });
+
+        // 核心功能：低俗内容过滤 + 聊天发送
+        const chatContainer = document.getElementById('chatContainer');
+        const messageInput = document.getElementById('message-input');
+        const sendBtn = document.getElementById('send-btn');
+        const errorTip = document.getElementById('errorTip');
+
+        // 常见低俗脏话关键词库（可根据需要扩展）
+        const badWords = [
+            '脏话1', '脏话2', '脏话3', '傻逼', '操', '靠', '妈的', '娘的', 
+            '滚蛋', '废物', '垃圾', '蠢货', '畜生', '杂种', '变态', '色情'
+        ];
+
+        // 检测消息是否包含违规内容
+        function checkBadWords(message) {
+            const lowerMessage = message.toLowerCase();
+            return badWords.some(word => lowerMessage.includes(word.toLowerCase()));
+        }
+
+        // 获取当前时间
+        function getCurrentTime() {
+            const now = new Date();
+            const hours = now.getHours().toString().padStart(2, '0');
+            const minutes = now.getMinutes().toString().padStart(2, '0');
+            return `${hours}:${minutes}`;
+        }
+
+        // 发送消息
+        function sendMessage() {
+            const message = messageInput.value.trim();
+            if (!message) return; // 空消息不发送
+
+            // 检测违规内容
+            if (checkBadWords(message)) {
+                errorTip.style.display = 'block';
+                setTimeout(() => {
+                    errorTip.style.display = 'none';
+                }, 3000);
+                return;
+            }
+
+            // 创建用户消息元素
+            const userMessageDiv = document.createElement('div');
+            userMessageDiv.className = 'chat-message user-message';
+            userMessageDiv.innerHTML = `
+                <div class="message-info">我 · ${getCurrentTime()}</div>
+                <div>${message}</div>
+            `;
+            chatContainer.appendChild(userMessageDiv);
+
+            // 清空输入框并滚动到底部
+            messageInput.value = '';
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+
+        // 绑定发送事件
+        sendBtn.addEventListener('click', sendMessage);
+        // 按Enter键发送（Shift+Enter换行）
+        messageInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendMessage();
+            }
+        });
+    </script>
+</body>
+</html>

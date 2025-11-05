@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>分享你的思考 | Pallas Academy</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Georgia', 'Times New Roman', serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5eedd;
+            color: #333;
+            line-height: 1.6;
+            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23d4c9a9' fill-opacity='0.2' fill-rule='evenodd'/%3E%3C/svg%3E");
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 30px auto;
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .container::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, #8b7355, #2c3e50, #8b7355);
+        }
+        
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            border-bottom: 2px solid #eaeaea;
+            padding-bottom: 15px;
+            margin-bottom: 25px;
+            font-size: 2.2rem;
+            position: relative;
+        }
+        
+        h1::after {
+            content: "";
+            position: absolute;
+            bottom: -2px;
+            left: 25%;
+            width: 50%;
+            height: 2px;
+            background: #8b7355;
+        }
+        
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            margin-bottom: 25px;
+            color: #2c3e50;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            padding: 8px 16px;
+            border-radius: 5px;
+            background-color: #f8f5f0;
+        }
+        
+        .back-btn:hover {
+            color: #8b7355;
+            background-color: #f0ebe1;
+            transform: translateX(-5px);
+        }
+        
+        .back-btn::before {
+            content: "←";
+            margin-right: 8px;
+            font-size: 1.2rem;
+        }
+        
+        .intro-text {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 1.1rem;
+            color: #555;
+            line-height: 1.7;
+        }
+        
+        .upload-form {
+            margin-top: 20px;
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: bold;
+            color: #2c3e50;
+            font-size: 1.05rem;
+        }
+        
+        input[type="text"], textarea, select {
+            width: 100%;
+            padding: 14px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-family: 'Georgia', serif;
+            font-size: 16px;
+            box-sizing: border-box;
+            transition: all 0.3s ease;
+            background-color: #fcfaf7;
+        }
+        
+        input[type="text"]:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: #8b7355;
+            box-shadow: 0 0 0 2px rgba(139, 115, 85, 0.2);
+            background-color: #fff;
+        }
+        
+        textarea {
+            height: 200px;
+            resize: vertical;
+            line-height: 1.5;
+        }
+        
+        .submit-btn {
+            background-color: #2c3e50;
+            color: white;
+            border: none;
+            padding: 14px 35px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-family: 'Georgia', serif;
+            display: block;
+            margin: 40px auto 20px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .submit-btn:hover {
+            background-color: #34495e;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(0,0,0,0.15);
+        }
+        
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+        
+        .submit-btn::after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 5px;
+            height: 5px;
+            background: rgba(255, 255, 255, 0.5);
+            opacity: 0;
+            border-radius: 100%;
+            transform: scale(1, 1) translate(-50%);
+            transform-origin: 50% 50%;
+        }
+        
+        .submit-btn:focus:not(:active)::after {
+            animation: ripple 1s ease-out;
+        }
+        
+        @keyframes ripple {
+            0% {
+                transform: scale(0, 0);
+                opacity: 0.5;
+            }
+            100% {
+                transform: scale(20, 20);
+                opacity: 0;
+            }
+        }
+        
+        .guidelines {
+            background-color: #f8f5f0;
+            padding: 25px;
+            border-radius: 5px;
+            margin-top: 40px;
+            border-left: 4px solid #8b7355;
+        }
+        
+        .guidelines h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+        }
+        
+        .guidelines ul {
+            padding-left: 20px;
+        }
+        
+        .guidelines li {
+            margin-bottom: 10px;
+            line-height: 1.5;
+        }
+        
+        .success-message {
+            display: none;
+            background-color: #e8f5e8;
+            color: #2d5016;
+            padding: 25px;
+            border-radius: 5px;
+            margin-top: 20px;
+            text-align: center;
+            border: 1px solid #c8e6c9;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .success-message h3 {
+            color: #2d5016;
+            margin-bottom: 15px;
+            font-size: 1.4rem;
+        }
+        
+        .countdown {
+            font-weight: bold;
+            color: #2c3e50;
+            font-size: 1.2rem;
+        }
+        
+        .action-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .action-btn {
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        
+        .primary-btn {
+            background-color: #2c3e50;
+            color: white;
+        }
+        
+        .secondary-btn {
+            background-color: #8b7355;
+            color: white;
+        }
+        
+        .action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #eaeaea;
+            color: #7f8c8d;
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 25px 20px;
+                margin: 15px auto;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .action-btn {
+                width: 100%;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="index.html" class="back-btn">返回首页</a>
+        
+        <h1>分享你的思考</h1>
+        <p class="intro-text">我们期待听到你的声音！请在此提交你的文章、诗歌、随笔或任何哲学思考。每一份真诚的分享都将在思想的星空中留下独特的光芒。</p>
+        
+        <form class="upload-form" id="submissionForm">
+            <div class="form-group">
+                <label for="title">标题：</label>
+                <input type="text" id="title" name="title" required placeholder="为你的作品取一个吸引人的标题">
+            </div>
+            
+            <div class="form-group">
+                <label for="author">作者名：</label>
+                <input type="text" id="author" name="author" required placeholder="你的名字或笔名">
+            </div>
+            
+            <div class="form-group">
+                <label for="category">作品类型：</label>
+                <select id="category" name="category">
+                    <option value="随笔/散文">随笔/散文</option>
+                    <option value="哲学思考">哲学思考</option>
+                    <option value="诗歌">诗歌</option>
+                    <option value="短篇故事">短篇故事</option>
+                    <option value="书评/影评">书评/影评</option>
+                    <option value="学术论文">学术论文</option>
+                    <option value="其他">其他</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="content">内容：</label>
+                <textarea id="content" name="content" required placeholder="在此写下你的思考...&#10;&#10;提示：我们鼓励深度思考和独特视角，优秀的作品将有机会在《光谱》报刊或我们的社交媒体上发布。"></textarea>
+            </div>
+            
+            <button type="submit" class="submit-btn">提交作品</button>
+        </form>
+        
+        <div id="successMessage" class="success-message">
+            <h3>投稿成功！</h3>
+            <p>感谢您的投稿，<span id="authorName"></span>！我们已收到您的作品《<span id="submissionTitle"></span>》。</p>
+            <p>我们的编辑团队将会认真审阅每一份投稿，并在3-5个工作日内与您联系。</p>
+            <p>页面将在 <span id="countdown" class="countdown">5</span> 秒后自动跳转回首页...</p>
+            
+            <div class="action-buttons">
+                <a href="index.html" class="action-btn primary-btn">立即返回首页</a>
+                <a href="upload.html" class="action-btn secondary-btn">再投一篇</a>
+            </div>
+        </div>
+        
+        <div class="guidelines">
+            <h3>投稿指南：</h3>
+            <ul>
+                <li>作品需为原创内容，未在其他平台发表</li>
+                <li>我们鼓励深度思考和独特视角，字数建议在800-5000字之间</li>
+                <li>优秀的作品将有机会在《光谱》报刊或我们的社交媒体上发布</li>
+                <li>提交后，我们的编辑团队会在3-5个工作日内与你联系</li>
+                <li>请确保留下准确的联系方式，以便我们与你取得联系</li>
+            </ul>
+        </div>
+        
+        <footer>
+            <p>Pallas Academy · 智慧与创意的交汇处</p>
+            <p>文学 · 哲学 · 艺术 · 历史</p>
+        </footer>
+    </div>
+
+    <script>
+        document.getElementById('submissionForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // 阻止表单默认提交
+            
+            // 获取表单数据
+            const title = document.getElementById('title').value;
+            const author = document.getElementById('author').value;
+            const category = document.getElementById('category').value;
+            const content = document.getElementById('content').value;
+            
+            // 创建投稿对象
+            const submission = {
+                title: title,
+                author: author,
+                category: category,
+                content: content,
+                date: new Date().toLocaleString('zh-CN'),
+                id: Date.now() // 使用时间戳作为唯一ID
+            };
+            
+            // 获取现有投稿或初始化空数组
+            let submissions = JSON.parse(localStorage.getItem('pallasSubmissions')) || [];
+            submissions.push(submission);
+            localStorage.setItem('pallasSubmissions', JSON.stringify(submissions));
+            
+            // 显示成功消息
+            document.getElementById('authorName').textContent = author;
+            document.getElementById('submissionTitle').textContent = title;
+            document.getElementById('submissionForm').style.display = 'none';
+            document.getElementById('successMessage').style.display = 'block';
+            
+            // 设置倒计时跳转
+            let seconds = 5;
+            const countdownElement = document.getElementById('countdown');
+            const countdownInterval = setInterval(function() {
+                seconds--;
+                countdownElement.textContent = seconds;
+                
+                if (seconds <= 0) {
+                    clearInterval(countdownInterval);
+                    window.location.href = 'index.html';
+                }
+            }, 1000);
+        });
+        
+        // 添加一些交互效果
+        document.querySelectorAll('input, textarea, select').forEach(element => {
+            element.addEventListener('focus', function() {
+                this.parentElement.style.transform = 'translateY(-2px)';
+            });
+            
+            element.addEventListener('blur', function() {
+                this.parentElement.style.transform = 'translateY(0)';
+            });
+        });
+    </script>
+</body>
+</html>
